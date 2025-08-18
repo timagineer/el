@@ -1,8 +1,481 @@
-            *,
-            *::before,
-            *::after {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-                color: red !important;
-            }
+/*------------------------------------*\
+
+Every Layout layout primitives
+by genius, Andy Bell, and genius'
+genius–and amateur solderer–
+Heydon Pickering 🤘 *+* 🤘
+
+https://every-layout.dev/
+https: //every-layout.dev/rudiments/
+https://every-layout.dev/layouts/
+
+- Stack (renamed stack-y)
+- Box
+- Center
+- Cluster (renamed stack-x)
+- Sidebar
+- Switcher
+- Cover
+- Grid
+- Frame
+- Reel
+- Imposter (deprecate for <dialog>?)
+- Icon
+- Container
+
+\*------------------------------------*/
+
+/*------------------------------------*\
+
+
+Props
+
+
+\*------------------------------------*/
+:where(html) {
+    color-scheme: light dark;
+    --color-light: hsl(60, 100%, 99%);
+    --color-dark: hsl(0, 0%, 7%);
+    --color-light-dark: light-dark(var(--color-light), var(--color-dark));
+    --color-dark-light: light-dark(var(--color-dark), var(--color-light));
+    --measure: 50rem;
+    --spacing-0: 0;
+    --spacing-01: 0.125rem;
+    --spacing-02: 0.25rem;
+    --spacing-03: 0.375rem;
+    --spacing-04: 0.5rem;
+    --spacing-05: 0.75rem;
+    --spacing-06: 1rem;
+    --spacing-07: 1.25rem;
+    --spacing-08: 1.5rem;
+    --spacing-09: 2rem;
+    --spacing-10: 2.5rem;
+    --spacing-11: 3rem;
+    --spacing-12: 4rem;
+    --spacing-13: 5rem;
+    --spacing-14: 6rem;
+    --spacing-15: 10rem;
+    --border-thin: calc(var(--space-01) / 2);
+    --border-medium: var(--space-01);
+    --border-wide: var(--space-04);
+}
+
+/*------------------------------------*\
+
+
+Stack (renamed stack-y)
+https: //every-layout.dev/layouts/stack/
+
+
+\*------------------------------------*/
+[class^='stack-y'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+[class^='stack-y']>* {
+    margin-block: 0;
+}
+
+/* Space (margin) between successive sibling (stacked) elements */
+.stack-y-0>*+* {
+    margin-block-start: var(--spacing-0);
+}
+
+.stack-y-01>*+* {
+    margin-block-start: var(--spacing-01);
+}
+
+.stack-y-02>*+* {
+    margin-block-start: var(--spacing-02);
+}
+
+.stack-y-03>*+* {
+    margin-block-start: var(--spacing-03);
+}
+
+.stack-y-04>*+* {
+    margin-block-start: var(--spacing-04);
+}
+
+.stack-y-05>*+* {
+    margin-block-start: var(--spacing-05);
+}
+
+.stack-y-06>*+* {
+    margin-block-start: var(--spacing-06);
+}
+
+.stack-y-07>*+* {
+    margin-block-start: var(--spacing-07)
+}
+
+.stack-y-08>*+* {
+    margin-block-start: var(--spacing-08)
+}
+
+.stack-y-09>*+* {
+    margin-block-start: var(--spacing-09)
+}
+
+.stack-y-10>*+* {
+    margin-block-start: var(--spacing-10)
+}
+
+.stack-y-11>*+* {
+    margin-block-start: var(--spacing-11)
+}
+
+.stack-y-12>*+* {
+    margin-block-start: var(--spacing-12)
+}
+
+.stack-y-13>*+* {
+    margin-block-start: var(--spacing-13)
+}
+
+.stack-y-14>*+* {
+    margin-block-start: var(--spacing-14)
+}
+
+.stack-y-15>*+* {
+    margin-block-start: var(--spacing-15)
+}
+
+/* The element index after which to split the stack. Example below splits after third element */
+/* .stack-y:only-child {
+    block-size: 100%;
+}
+.stack-y>:nth-child(3) {
+    margin-block-end: auto;
+} */
+
+/* Pattern to apply space recursively, i.e.. regardless of nesting level */
+/* .stack-y-## *+* {
+    margin-block-start: var(--space-##);
+} */
+
+/*------------------------------------*\
+
+
+Box
+https://every-layout.dev/layouts/box/
+
+
+\*------------------------------------*/
+.box {
+    padding-block: var(--space-04);
+    padding-inline: var(--space-04);
+    color: var(--color-dark-light);
+    background-color: var(--color-light-dark);
+    border-width: var(--border-thin);
+    border-style: solid;
+    border-color: var(--color-dark-light);
+}
+
+.box * {
+    color: inherit;
+}
+
+.box.invert {
+    color: var(--color-light-dark);
+    background-color: var(--color-dark-light);
+    border-color: var(--color-light-dark);
+}
+
+/*------------------------------------*\
+
+
+Center
+https://every-layout.dev/layouts/center/
+
+
+\*------------------------------------*/
+.center {
+    box-sizing: content-box;
+    margin-inline: auto;
+    max-inline-size: var(--measure);
+    /* gutters */
+    padding-inline: var(--space-04);
+    /* text align as well? */
+    /* text-align: center; */
+    /* intrinsic centering? center child elements narrower than the max-width value */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center; */
+}
+
+/*------------------------------------*\
+
+
+stack-x (was Cluster)
+https://every-layout.dev/layouts/cluster/
+
+
+\*------------------------------------*/
+.stack-x {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-02);
+    /* use utility classes to modify these two, e.g., .jcsa, .aife, etc. */
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*------------------------------------*\
+
+
+Sidebar
+https://every-layout.dev/layouts/sidebar/
+
+
+\*------------------------------------*/
+.sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-04);
+}
+
+.sidebar> :first-child {
+    flex-grow: 1;
+    /* sidebar width */
+    /* the width of the sidebar (empty means not set; defaults to the content width) */
+    /* flex-basis: ; */
+}
+
+/* sidebar on right? */
+/* .sidebar > :last-child {
+  flex-grow: 1;
+} */
+
+.sidebar> :last-child {
+    flex-basis: 0;
+    flex-grow: 999;
+    /* content minimum width The narrowest the content (main) element can be before wrapping. should be a percentage */
+    min-inline-size: 50%;
+}
+
+/*------------------------------------*\
+
+
+Switcher
+https://every-layout.dev/layouts/switcher/
+
+
+\*------------------------------------*/
+.switcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-04);
+}
+
+.switcher>* {
+    flex-grow: 1;
+    flex-basis: calc((var(--measure) - 100%) * 999);
+}
+
+/* .switcher> :nth-child(2) {
+  flex-grow: 2;
+} */
+
+/* limit
+   maximum number (#) of elements allowed to appear in the horizontal configuration. example below = 5
+   maximum number (#) of elements allowed to appear in the horizontal configuration. example below = 3
+    */
+.switcher> :nth-last-child(n + 4),
+.switcher> :nth-last-child(n + 4)~* {
+    flex-basis: 100%;
+}
+
+/*------------------------------------*\
+
+
+Cover
+https://every-layout.dev/layouts/cover/
+
+
+\*------------------------------------*/
+.cover {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 100vh;
+    padding: var(--space-06);
+    /* zero padding? */
+    /* padding: 0; */
+}
+
+.cover>* {
+    margin-block: var(--space-04);
+}
+
+.cover>:first-child:not(main) {
+    margin-block-start: 0;
+}
+
+.cover>:last-child:not(main) {
+    margin-block-end: 0;
+}
+
+.cover>main {
+    margin-block: auto;
+}
+
+/*------------------------------------*\
+
+
+Grid
+https://every-layout.dev/layouts/grid/
+
+
+\*------------------------------------*/
+.grid {
+    display: grid;
+    grid-gap: var(--space-06);
+}
+
+@supports (width: min(250px, 100%)) {
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+    }
+}
+
+/*------------------------------------*\
+
+
+Frame
+https://every-layout.dev/layouts/frame/
+
+
+\*------------------------------------*/
+.frame {
+    /* left-hand side of the ratio (e.g. the 16 in 16:9) */
+    --width: 16;
+    /* right-hand side of the ratio (e.g. the 9 in 16:9) */
+    --height: 9;
+    aspect-ratio: var(--width) / var(--height);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:where(.frame>img, .frame>svg, .frame>video) {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+}
+
+@media (orientation: portrait) {
+    .frame {
+        --width: 1;
+        --height: 1;
+        aspect-ratio: var(--width) / var(--height);
+    }
+}
+
+/*------------------------------------*\
+
+
+Reel
+https://every-layout.dev/layouts/reel/
+
+
+\*------------------------------------*/
+.reel {
+    display: flex;
+    block-size: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-color: var(--color-light-dark) var(--color-dark-light);
+}
+
+.reel::-webkit-scrollbar {
+    block-size: var(--space-06);
+}
+
+.reel::-webkit-scrollbar-track {
+    background-color: var(--color-dark-light);
+}
+
+.reel::-webkit-scrollbar-thumb {
+    background-color: var(--color-dark-light);
+    background-image: linear-gradient(var(--color-dark-light) 0, var(--color-dark-light) 0.25rem, var(--color-light-dark) 0.25rem, var(--color-light-dark) 0.75rem, var(--color-dark-light) 0.75rem);
+}
+
+.reel>* {
+    flex: 0 0 auto;
+}
+
+.reel>img {
+    block-size: 100%;
+    flex-basis: auto;
+    width: auto;
+}
+
+.reel>*+* {
+    margin-inline-start: var(--space-06);
+}
+
+.reel.overflowing {
+    padding-block-end: var(--space-06);
+}
+
+/*------------------------------------*\
+
+
+Imposter
+https://every-layout.dev/layouts/imposter/
+
+
+\*------------------------------------*/
+.imposter {
+    position: absolute;
+    /* position element relative to the viewport? */
+    /* position: fixed; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.imposter.contain {
+    --margin: 0px;
+    overflow: auto;
+    max-inline-size: calc(100% - (var(--margin) * 2));
+    max-block-size: calc(100% - (var(--margin) * 2));
+}
+
+/*------------------------------------*\
+
+
+Icon
+https://every-layout.dev/layouts/icon/
+
+
+\*------------------------------------*/
+.icon {
+    width: 1cap;
+    height: 1cap;
+}
+
+.with-icon {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.with-icon .icon {
+    margin-inline-end: var(--spacing-03);
+}
+
+/*------------------------------------*\
+
+
+Container
+https://every-layout.dev/layouts/container/
+
+
+\*------------------------------------*/
+.container {
+    container-name: myContainer;
+    container-type: inline-size;
+}
