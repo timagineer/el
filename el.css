@@ -383,12 +383,16 @@ https://every-layout.dev/layouts/grid/
 Frame
 https://every-layout.dev/layouts/frame/
 
+<div class="frame">
+    <img/> or <svg>> or <video/>
+</div>
+
 
 \*------------------------------------*/
 .frame {
-    /* left-hand side of the ratio (e.g. the 16 in 16:9) */
+    /* Numerator: left-hand side of the ratio (e.g. the 16 in 16:9) */
     --width: 16;
-    /* right-hand side of the ratio (e.g. the 9 in 16:9) */
+    /* Denominator: right-hand side of the ratio (e.g. the 9 in 16:9) */
     --height: 9;
     aspect-ratio: var(--width) / var(--height);
     overflow: hidden;
@@ -416,6 +420,12 @@ https://every-layout.dev/layouts/frame/
 
 Reel
 https://every-layout.dev/layouts/reel/
+
+<div class="reel">
+    <div>< !-- reel item --></div>
+    <div>< !-- reel item --></div
+    ><div>< !-- reel item --></div>
+</div>
 
 
 \*------------------------------------*/
@@ -461,7 +471,7 @@ https://every-layout.dev/layouts/reel/
 /*------------------------------------*\
 
 
-Imposter
+Imposter (deprecated by <dialog>)
 https://every-layout.dev/layouts/imposter/
 
 
@@ -488,6 +498,11 @@ https://every-layout.dev/layouts/imposter/
 Icon
 https://every-layout.dev/layouts/icon/
 
+<button class="with-icon">
+    <svg class="icon"><use href="/path/to/icons.svg#my-icon"></use></svg>
+    Close
+</button>
+
 
 \*------------------------------------*/
 .icon {
@@ -509,6 +524,8 @@ https://every-layout.dev/layouts/icon/
 
 Container
 https://every-layout.dev/layouts/container/
+
+div class="container"></div>
 
 
 \*------------------------------------*/
