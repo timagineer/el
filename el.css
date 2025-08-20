@@ -255,10 +255,10 @@ https://every-layout.dev/layouts/cluster/
 Sidebar
 https://every-layout.dev/layouts/sidebar/
 
-<div class="sidebar">
-    <div>< !-- sidebar --></div>
-    <div>< !-- non-sidebar --></div>
-</div>
+<main class="sidebar">
+    <aside>< !-- sidebar --></aside>
+    <section>< !-- non-sidebar --></section>
+</main>
 
 
 \*------------------------------------*/
