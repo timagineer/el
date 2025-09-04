@@ -9,19 +9,19 @@ https://every-layout.dev/
 https://every-layout.dev/layouts/
 https: //every-layout.dev/rudiments/
 
-- Stack (renamed stack-y)
 - Box
 - Center
-- Cluster (renamed stack-x)
-- Sidebar
-- Switcher
-- Cover
-- Grid
-- Frame
-- Reel
-- Imposter (deprecate for <dialog>?)
-- Icon
 - Container
+- Cover
+- Frame
+- Grid
+- Icon
+- Imposter (deprecating for <dialog>)
+- Reel
+- Sidebar
+- Stack-x (was Cluster)
+- Stack-y (was Stack)
+- Switcher
 
 \*------------------------------------*/
 
@@ -34,11 +34,25 @@ Props
 \*------------------------------------*/
 :where(html) {
     color-scheme: light dark;
-    --color-light: hsl(60, 100%, 99%);
-    --color-dark: hsl(0, 0%, 7%);
-    --color-light-dark: light-dark(var(--color-light), var(--color-dark));
-    --color-dark-light: light-dark(var(--color-dark), var(--color-light));
-    --measure: 50rem;
+    --color-black: black;
+    --color-gray-50: hsl(0, 0%, 4%);
+    --color-gray-100: hsl(0, 0%, 6%);
+    --color-gray-150: hsl(0, 0%, 9%);
+    --color-gray-200: hsl(0, 0%, 15%);
+    --color-gray-250: hsl(0, 0%, 22%);
+    --color-gray-300: hsl(0, 0%, 32%);
+    --color-gray-400: hsl(0, 0%, 44%);
+    --color-gray-500: hsl(0, 0%, 55%);
+    --color-gray-600: hsl(0, 0%, 66%);
+    --color-gray-700: hsl(0, 0%, 78%);
+    --color-gray-800: hsl(0, 0%, 88%);
+    --color-gray-850: hsl(0, 0%, 92%);
+    --color-gray-900: hsl(0, 0%, 96%);
+    --color-gray-950: hsl(0, 0%, 98%);
+    --color-white: white;
+    --color-background: light-dark(var(--color-gray-950), var(--color-gray-100));
+    --color-foreground: light-dark(var(--color-gray-250), var(--color-gray-850));
+    --measure: 60rem;
     --spacing-0: 0;
     --spacing-01: 0.125rem;
     --spacing-02: 0.25rem;
@@ -57,13 +71,361 @@ Props
     --spacing-15: 10rem;
     --border-thin: calc(var(--spacing-01) / 2);
     --border-medium: var(--spacing-01);
-    --border-wide: var(--spacing-04);
+    --border-wide: calc(var(--spacing-01) * 2);
 }
 
 /*------------------------------------*\
 
 
-Stack (renamed stack-y)
+Box
+https://every-layout.dev/layouts/box/
+
+<div class="box">
+    < !-- the box's contents -->
+</div>
+
+For box styles (inherited) by children, use .box>* {} and…
+
+<ul class="box">
+    <li>styled box</li>
+    <li>styled box</li>
+    <li>styled box</li>
+</ul>
+
+
+\*------------------------------------*/
+.box {
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    border: var(--border-thin) solid var(--color-foreground);
+    padding-block: var(--spacing-04);
+    padding-inline: var(--spacing-04);
+}
+
+.box * {
+    background-color: inherit;
+    color: inherit;
+}
+
+.box.invert {
+    color: var(--color-background);
+    background-color: var(--color-foreground);
+    border-color: var(--color-background);
+}
+
+/*------------------------------------*\
+
+
+Center
+https://every-layout.dev/layouts/center/
+
+<div class="center">
+    < !-- centered content -->
+</div>
+
+
+\*------------------------------------*/
+.center {
+    box-sizing: content-box;
+    margin-inline: auto;
+    max-inline-size: var(--measure);
+    /* Gutters */
+    padding-inline: var(--spacing-04);
+    /* Text align as well? */
+    /* text-align: center; */
+    /* Intrinsic centering? Center child elements narrower than the max-width value */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center; */
+}
+
+/*------------------------------------*\
+
+
+Container
+https://every-layout.dev/layouts/container/
+
+div class="container"></div>
+
+
+\*------------------------------------*/
+.container {
+    container-name: myContainer;
+    container-type: inline-size;
+}
+
+/*------------------------------------*\
+
+
+Cover
+https://every-layout.dev/layouts/cover/
+
+<body class="cover">
+    <header>< !-- header --></header>
+    <main>< !-- centered --></main>
+    <footer>< !-- footer --></footer>
+</body>
+
+
+\*------------------------------------*/
+.cover {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 100vh;
+    padding: var(--spacing-06);
+}
+
+.cover>* {
+    margin-block: var(--spacing-04);
+}
+
+.cover>:first-child:not(main) {
+    margin-block-start: 0;
+}
+
+.cover>:last-child:not(main) {
+    margin-block-end: 0;
+}
+
+.cover>main {
+    margin-block: auto;
+}
+
+/*------------------------------------*\
+
+
+Frame
+https://every-layout.dev/layouts/frame/
+
+<div class="frame">
+    <img/> or <svg>> or <video/>
+</div>
+
+
+\*------------------------------------*/
+.frame {
+    /* Numerator: left-hand side of the ratio (e.g. the 16 in 16:9) */
+    --width: 16;
+    /* Denominator: right-hand side of the ratio (e.g. the 9 in 16:9) */
+    --height: 9;
+    aspect-ratio: var(--width) / var(--height);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+:where(.frame>img, .frame>svg, .frame>video) {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+}
+
+@media (orientation: portrait) {
+    .frame {
+        --width: 1;
+        --height: 1;
+        aspect-ratio: var(--width) / var(--height);
+    }
+}
+
+/*------------------------------------*\
+
+
+Grid
+https://every-layout.dev/layouts/grid/
+
+<div class="grid">
+    <div>< !-- child element --></div>
+    <div>< !-- another child element --></div>
+    <div>< !-- etc --></div>
+</div>
+
+
+\*------------------------------------*/
+.grid {
+    display: grid;
+    grid-gap: var(--spacing-06);
+}
+
+@supports (width: min(250px, 100%)) {
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+    }
+}
+
+/*------------------------------------*\
+
+
+Icon
+https://every-layout.dev/layouts/icon/
+
+<button class="with-icon">
+    <svg class="icon"><use href="/path/to/icons.svg#my-icon"></use></svg>
+    Close
+</button>
+
+
+\*------------------------------------*/
+.icon {
+    width: 1cap;
+    height: 1cap;
+}
+
+.with-icon {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.with-icon .icon {
+    margin-inline-end: var(--spacing-03);
+}
+
+/*------------------------------------*\
+
+
+Imposter (deprecated by <dialog>)
+https://every-layout.dev/layouts/imposter/
+
+<div style="position: relative">
+    <p>Static content</p>
+    <div class="imposter">
+        <p>Superimposed content</p>
+    </div>
+</div>
+
+
+\*------------------------------------*/
+.imposter {
+    position: absolute;
+    /* Position element relative to the viewport? */
+    /* position: fixed; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.imposter.contain {
+    --margin: 0px;
+    overflow: auto;
+    max-inline-size: calc(100% - (var(--margin) * 2));
+    max-block-size: calc(100% - (var(--margin) * 2));
+}
+
+/*------------------------------------*\
+
+
+Reel
+https://every-layout.dev/layouts/reel/
+
+<div class="reel">
+    <div>< !-- reel item --></div>
+    <div>< !-- reel item --></div
+    ><div>< !-- reel item --></div>
+</div>
+
+
+\*------------------------------------*/
+.reel {
+    display: flex;
+    block-size: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-color: var(--color-foreground) var(--color-background);
+}
+
+.reel::-webkit-scrollbar {
+    block-size: var(--spacing-06);
+}
+
+.reel::-webkit-scrollbar-track {
+    background-color: var(--color-background);
+}
+
+.reel::-webkit-scrollbar-thumb {
+    background-color: var(--color-background);
+    background-image: linear-gradient(var(--color-background) 0, var(--color-background) 0.25rem, var(--color-foreground) 0.25rem, var(--color-foreground) 0.75rem, var(--color-background) 0.75rem);
+}
+
+.reel>* {
+    flex: 0 0 auto;
+}
+
+.reel>img {
+    block-size: 100%;
+    flex-basis: auto;
+    width: auto;
+}
+
+.reel>*+* {
+    margin-inline-start: var(--spacing-06);
+}
+
+.reel.overflowing {
+    padding-block-end: var(--spacing-06);
+}
+
+/*------------------------------------*\
+
+
+Sidebar
+https://every-layout.dev/layouts/sidebar/
+
+<main class="sidebar">
+    <aside>< !-- sidebar --></aside>
+    <section>< !-- non-sidebar --></section>
+</main>
+
+
+\*------------------------------------*/
+.sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-04);
+}
+
+.sidebar> :first-child {
+    /* Sidebar on right? */
+    /* .sidebar > :last-child { */
+    flex-grow: 1;
+    /* The width of the sidebar (empty means not set; defaults to the content width) */
+    /* flex-basis: ; */
+}
+
+.sidebar> :last-child {
+    flex-basis: 0;
+    flex-grow: 999;
+    /* The narrowest the content (main) element can be before wrapping (should be a percentage). */
+    min-inline-size: 50%;
+}
+
+/*------------------------------------*\
+
+
+Stack-x (was Cluster)
+https://every-layout.dev/layouts/cluster/
+
+<ul class="stack-x">
+    <li>< !-- child --></li>
+    <li>< !-- child --></li>
+    <li>< !-- etc --></li>
+</ul>
+
+
+\*------------------------------------*/
+.stack-x {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-02);
+    /* Use utility classes to modify axes alignment, e.g., .jcsa, .aife, etc. */
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*------------------------------------*\
+
+
+Stack-x (renamed stack-y)
 https://every-layout.dev/layouts/stack/
 
 <div class="stack-y">
@@ -164,128 +526,6 @@ https://every-layout.dev/layouts/stack/
 /*------------------------------------*\
 
 
-Box
-https://every-layout.dev/layouts/box/
-
-<div class="box">
-    < !-- the box's contents -->
-</div>
-
-For box styles (inherited) by children, use .box>* {} and…
-
-<ul class="box">
-    <li>styled box</li>
-    <li>styled box</li>
-    <li>styled box</li>
-</ul>
-
-
-\*------------------------------------*/
-.box {
-    color: var(--color-dark-light);
-    background-color: var(--color-light-dark);
-    border: var(--border-thin) solid var(--color-dark-light);
-    padding-block: var(--spacing-04);
-    padding-inline: var(--spacing-04);
-}
-
-.box * {
-    background-color: inherit;
-    color: inherit;
-}
-
-.box.invert {
-    color: var(--color-light-dark);
-    background-color: var(--color-dark-light);
-    border-color: var(--color-light-dark);
-}
-
-/*------------------------------------*\
-
-
-Center
-https://every-layout.dev/layouts/center/
-
-<div class="center">
-    < !-- centered content -->
-</div>
-
-
-\*------------------------------------*/
-.center {
-    box-sizing: content-box;
-    margin-inline: auto;
-    max-inline-size: var(--measure);
-    /* Gutters */
-    padding-inline: var(--spacing-04);
-    /* Text align as well? */
-    /* text-align: center; */
-    /* Intrinsic centering? Center child elements narrower than the max-width value */
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* align-items: center; */
-}
-
-/*------------------------------------*\
-
-
-stack-x (was Cluster)
-https://every-layout.dev/layouts/cluster/
-
-<ul class="stack-x">
-    <li>< !-- child --></li>
-    <li>< !-- child --></li>
-    <li>< !-- etc --></li>
-</ul>
-
-
-\*------------------------------------*/
-.stack-x {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-02);
-    /* Use utility classes to modify axes alignment, e.g., .jcsa, .aife, etc. */
-    justify-content: space-between;
-    align-items: center;
-}
-
-/*------------------------------------*\
-
-
-Sidebar
-https://every-layout.dev/layouts/sidebar/
-
-<main class="sidebar">
-    <aside>< !-- sidebar --></aside>
-    <section>< !-- non-sidebar --></section>
-</main>
-
-
-\*------------------------------------*/
-.sidebar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-04);
-}
-
-.sidebar> :first-child {
-    /* Sidebar on right? */
-    /* .sidebar > :last-child { */
-    flex-grow: 1;
-    /* The width of the sidebar (empty means not set; defaults to the content width) */
-    /* flex-basis: ; */
-}
-
-.sidebar> :last-child {
-    flex-basis: 0;
-    flex-grow: 999;
-    /* The narrowest the content (main) element can be before wrapping (should be a percentage). */
-    min-inline-size: 50%;
-}
-
-/*------------------------------------*\
-
-
 Switcher
 https://every-layout.dev/layouts/switcher/
 
@@ -313,223 +553,4 @@ https://every-layout.dev/layouts/switcher/
     /* .switcher> :nth-last-child(n + 4),
 .switcher> :nth-last-child(n + 4)~* { */
     flex-basis: 100%;
-}
-
-/*------------------------------------*\
-
-
-Cover
-https://every-layout.dev/layouts/cover/
-
-<body class="cover">
-    <header>< !-- header --></header>
-    <main>< !-- centered --></main>
-    <footer>< !-- footer --></footer>
-</body>
-
-
-\*------------------------------------*/
-.cover {
-    display: flex;
-    flex-direction: column;
-    min-block-size: 100vh;
-    padding: var(--spacing-06);
-}
-
-.cover>* {
-    margin-block: var(--spacing-04);
-}
-
-.cover>:first-child:not(main) {
-    margin-block-start: 0;
-}
-
-.cover>:last-child:not(main) {
-    margin-block-end: 0;
-}
-
-.cover>main {
-    margin-block: auto;
-}
-
-/*------------------------------------*\
-
-
-Grid
-https://every-layout.dev/layouts/grid/
-
-<div class="grid">
-    <div>< !-- child element --></div>
-    <div>< !-- another child element --></div>
-    <div>< !-- etc --></div>
-</div>
-
-
-\*------------------------------------*/
-.grid {
-    display: grid;
-    grid-gap: var(--spacing-06);
-}
-
-@supports (width: min(250px, 100%)) {
-    .grid {
-        grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
-    }
-}
-
-/*------------------------------------*\
-
-
-Frame
-https://every-layout.dev/layouts/frame/
-
-<div class="frame">
-    <img/> or <svg>> or <video/>
-</div>
-
-
-\*------------------------------------*/
-.frame {
-    /* Numerator: left-hand side of the ratio (e.g. the 16 in 16:9) */
-    --width: 16;
-    /* Denominator: right-hand side of the ratio (e.g. the 9 in 16:9) */
-    --height: 9;
-    aspect-ratio: var(--width) / var(--height);
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-:where(.frame>img, .frame>svg, .frame>video) {
-    inline-size: 100%;
-    block-size: 100%;
-    object-fit: cover;
-}
-
-@media (orientation: portrait) {
-    .frame {
-        --width: 1;
-        --height: 1;
-        aspect-ratio: var(--width) / var(--height);
-    }
-}
-
-/*------------------------------------*\
-
-
-Reel
-https://every-layout.dev/layouts/reel/
-
-<div class="reel">
-    <div>< !-- reel item --></div>
-    <div>< !-- reel item --></div
-    ><div>< !-- reel item --></div>
-</div>
-
-
-\*------------------------------------*/
-.reel {
-    display: flex;
-    block-size: auto;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-color: var(--color-light-dark) var(--color-dark-light);
-}
-
-.reel::-webkit-scrollbar {
-    block-size: var(--spacing-06);
-}
-
-.reel::-webkit-scrollbar-track {
-    background-color: var(--color-dark-light);
-}
-
-.reel::-webkit-scrollbar-thumb {
-    background-color: var(--color-dark-light);
-    background-image: linear-gradient(var(--color-dark-light) 0, var(--color-dark-light) 0.25rem, var(--color-light-dark) 0.25rem, var(--color-light-dark) 0.75rem, var(--color-dark-light) 0.75rem);
-}
-
-.reel>* {
-    flex: 0 0 auto;
-}
-
-.reel>img {
-    block-size: 100%;
-    flex-basis: auto;
-    width: auto;
-}
-
-.reel>*+* {
-    margin-inline-start: var(--spacing-06);
-}
-
-.reel.overflowing {
-    padding-block-end: var(--spacing-06);
-}
-
-/*------------------------------------*\
-
-
-Imposter (deprecated by <dialog>)
-https://every-layout.dev/layouts/imposter/
-
-
-\*------------------------------------*/
-.imposter {
-    position: absolute;
-    /* Position element relative to the viewport? */
-    /* position: fixed; */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.imposter.contain {
-    --margin: 0px;
-    overflow: auto;
-    max-inline-size: calc(100% - (var(--margin) * 2));
-    max-block-size: calc(100% - (var(--margin) * 2));
-}
-
-/*------------------------------------*\
-
-
-Icon
-https://every-layout.dev/layouts/icon/
-
-<button class="with-icon">
-    <svg class="icon"><use href="/path/to/icons.svg#my-icon"></use></svg>
-    Close
-</button>
-
-
-\*------------------------------------*/
-.icon {
-    width: 1cap;
-    height: 1cap;
-}
-
-.with-icon {
-    display: inline-flex;
-    align-items: baseline;
-}
-
-.with-icon .icon {
-    margin-inline-end: var(--spacing-03);
-}
-
-/*------------------------------------*\
-
-
-Container
-https://every-layout.dev/layouts/container/
-
-div class="container"></div>
-
-
-\*------------------------------------*/
-.container {
-    container-name: myContainer;
-    container-type: inline-size;
 }
